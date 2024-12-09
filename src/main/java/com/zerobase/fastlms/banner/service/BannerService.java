@@ -45,7 +45,7 @@ public class BannerService {
     }
 
     public List<Banner> getPublicBanner(){
-        return bannerRepository.findByIsPublicTrue();
+        return bannerRepository.findByIsPublicTrueOrderByImgorderAsc();
     }
 
     public void deleteBanner(List<Long> ids) {
