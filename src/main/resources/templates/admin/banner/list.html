@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>배너 관리</title>
+    <style>
+        .list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .list table th, .list table td {
+            border:solid 1px #000;
+        }
+
+        .search-form {
+            position: relative;
+            padding: 5px 0 10px 0;
+            text-align: right;
+        }
+
+        .banner-option {
+            position: relative;
+            left: 0;
+            top: 0;
+            height: 20px;
+            float:left;
+        }
+
+        .search-form .total-count {
+            position: relative;
+            left: 0; top: 0;
+            height: 20px;
+            float: right;
+        }
+
+        .pager {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pager a.on {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<script>
+    function deleteBanners(){
+        const selectedId = [];
+
+        document.querySelectorAll('input[type="checkbox"]:checked')
+            .forEach(checkbox =>{
+                selectedId.push(checkbox.value);
+            });
+
+        fetch('/admin/banner/delete.do',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(selectedId)
+        })
+            .then(res =>{
+                if(res.ok) {
+                    alert('삭제되었습니다.');
+                    window.location.reload();
+                } else {
+                    alert('삭제 중 오류가 발생했습니다.');
+                }
+            })
+            .catch(error =>{
+                console.error(error);
+
+            });
+    }
+
+
+</script>
+<body>
+    <div th:replace="/fragments/layout.html :: fragment-admin-body-menu"></div>
+    <h1>배너 관리</h1>
+
+    <div class="list">
+
+        <div class="banner-option">
+            <a href="/admin/banner/add.do">배너 등록</a>
+            <a href="#" onclick="deleteBanners()">배너 삭제</a>
+        </div>
+
+        <div class="search-form">
+            <p class="total-count">전체<span th:text="${totalCount}"></span>개</p>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>NO</th>
+                    <th>
+                        배너명
+                    </th>
+                    <th>
+                        이미지
+                    </th>
+                    <th>
+                        등록일
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each ="x : ${banners}">
+                    <td>
+                        <input type="checkbox" th:value="${x.id}"/>
+                    </td>
+                    <td th:text="${x.id}"></td>
+                    <td>
+                        <a th:href="${x.link}" th:target="${x.bannerType}" th:text="${x.name}"></a>
+                    </td>
+                    <td>
+                        <img th:src="${x.link}" width="100" height="100" alt="배너 이미지">
+                    </td>
+                    <td th:text="${x.registDt}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    <div class="pager">
+    </div>
+
+    </div>
+</body>
+</html>

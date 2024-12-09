@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>배너 등록</title>
+</head>
+<style>
+    .list table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .list table th, .list table td {
+        border:solid 1px #000;
+    }
+
+</style>
+<body>
+    <div th:replace="/fragments/layout.html :: fragment-admin-body-menu"></div>
+    <h1>배너 관리 - 배너 등록</h1>
+
+    <div class="list">
+
+
+
+        <form action="/admin/banner/add.do" method="post" enctype="multipart/form-data">
+            <table>
+                <tr>
+                    <td>배너명</td>
+                    <td><input type="text" id="name" name ="name" placeholder="배너명 입력"></td>
+                </tr>
+                <tr>
+                    <td>배너 파일</td>
+                    <td><input type="file" id="file" name="file"></td>
+                </tr>
+                <tr>
+                    <td>링크 주소</td>
+                    <td><input type="url" id="link" name = "link" placeholder="링크 주소 입력"></td>
+                </tr>
+
+                <tr>
+                    <td>오픈 방법</td>
+                    <td>
+                        <select name="bannerType">
+                            <option value="">오픈 방법 선택</option>
+                            <option value="_self">새 창</option>
+                            <option value="_blank">현재 창</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>정렬 순서</td>
+                    <td><input type="number" id="imgorder" name="imgorder" placeholder="정렬 순서 입력"></td>
+                </tr>
+
+                <tr>
+                    <td>공개 여부</td>
+                    <td><input type="checkbox" id="isPublic" name="isPublic">공개</td>
+                </tr>
+
+
+
+            </table>
+            <br>
+            <button type="submit">등록</button>
+        </form>
+
+    </div>
+</body>
+</html>
